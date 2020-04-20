@@ -24,7 +24,7 @@ def main():
     client.username_pw_set(NETPIE_TOKEN)
     client.connect("mqtt.netpie.io", 1883, 60)
     client.loop_start()
-    with serial.Serial('/dev/tty.usbserial-D3071WWY', 9600) as ser:
+    with serial.Serial(USB_DEVICE, 9600) as ser:
         while(True) :
             try:
                 data = ser.readline().decode('utf-8')
