@@ -26,9 +26,9 @@ void loop()
   uint8_t payload[128];
   DynamicJsonDocument json(sizeof(payload));
 
-  json["sensor node"]      = SENSOR_ID;
-  json["temperature"] = analogRead(pin_temperature);
-  json["soil moisture"]    = analogRead(pin_moisture);
+  json["sensor node"]       = SENSOR_ID;
+  json["temperature"]       = analogRead(pin_temperature);
+  json["soil moisture"]     = analogRead(pin_moisture);
     
   serializeJson(json, (unsigned char*)payload, sizeof(payload));
   

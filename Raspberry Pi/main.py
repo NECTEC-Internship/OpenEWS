@@ -29,7 +29,7 @@ def main():
             try:
                 data = ser.readline().decode('utf-8')
                 data = json.loads(data)
-            except json.decoder.JSONDecodeError, e:
+            except json.decoder.JSONDecodeError as  e:
                 print(e)
                 continue
             payload = {"data": data}
