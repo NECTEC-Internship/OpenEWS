@@ -1,11 +1,12 @@
+import datetime
 import json
 import serial
 import paho.mqtt.client as mqtt
 
 USB_DEVICE = '/dev/ttyUSB_CT-UNO'
 
-NETPIE_ID = 'b4682d9c-c282-4bad-8d02-5ad6997b5cb9'
-NETPIE_TOKEN = 'tnrutv5Dqv2J9uCJUxKUUp5svd66iBUv'
+NETPIE_ID = '6cd6b2b5-a74b-4bdd-953e-18fc4b65b908'
+NETPIE_TOKEN = '3HGgFKN5NNn96ndP5y1XMH77EdHUvtp7'
 
 TOPICS_SHADOW = {
     "update": "@shadow/data/update"
@@ -32,6 +33,7 @@ def main():
             except json.decoder.JSONDecodeError as  e:
                 print(e)
                 continue
+            data['timestamp'] = str(datetime.datetime.now())
             payload = {"data": data}
             payload = json.dumps(payload)
             client.publish(TOPICS_MSG["feeds"], payload=payload)
