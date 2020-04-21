@@ -2,12 +2,16 @@
 #include <RH_RF95.h>
 #include <ArduinoJson.h>
 
+#define RFM95_CS 10
+#define RFM95_INT 2
+#define RF95_FREQ 915.0
+
 #define INTERVAL 1000
-#define SENSOR_ID "CT-UNO-1"
+#define SENSOR_ID "CT-UNO-2"
 
 unsigned long time;
 
-RH_RF95 rf95;
+RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 int pin_temperature = A0;
 int pin_moisture = A3;
@@ -15,9 +19,16 @@ int pin_moisture = A3;
 void setup() 
 {
   Serial.begin(9600);
-  while (!Serial) ; // Wait for serial port to be available
-  if (!rf95.init())
+  while (!Serial) ;
+  if (!rf95.init()){
     Serial.println("init failed");
+    while (1);
+  }
+  if (!rf95.setFrequency(RF95_FREQ)) {
+    Serial.println("set frequency failed");
+    while (1);
+  }
+  rf95.setTxPower(23, false);
 }
 
 void loop()
