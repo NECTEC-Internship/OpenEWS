@@ -6,8 +6,8 @@
 #define RFM95_INT 2
 #define RF95_FREQ 915.0
 
-#define INTERVAL 1000
-#define SENSOR_ID "CT-UNO-2"
+#define INTERVAL 6e4
+#define SENSOR_NODE_ID "CT-UNO-2"
 
 unsigned long time;
 
@@ -37,9 +37,9 @@ void loop()
   uint8_t payload[128];
   DynamicJsonDocument json(sizeof(payload));
 
-  json["sensor node"]       = SENSOR_ID;
-  json["temperature"]       = analogRead(pin_temperature);
-  json["soil moisture"]     = analogRead(pin_moisture);
+  json["sensor_node"]       = SENSOR_NODE_ID;
+  json["soil_temperature"]  = analogRead(pin_temperature);
+  json["soil_moisture"]     = analogRead(pin_moisture);
     
   serializeJson(json, (unsigned char*)payload, sizeof(payload));
   
@@ -47,6 +47,6 @@ void loop()
   rf95.waitPacketSent();
 
   Serial.println((char*)payload);
-  delay(INTERVAL*random(1,10));
+  delay(INTERVAL);
   //Serial.println(millis()-time);
 }
