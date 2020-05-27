@@ -7,7 +7,7 @@
 #define RF95_FREQ 915.0
 
 #define INTERVAL 6e4
-#define SENSOR_NODE_ID "CT-UNO-2"
+#define SENSOR_NODE_ID "CT_UNO_2"
 
 unsigned long seq;
 unsigned long time;
