@@ -9,6 +9,7 @@
 #define INTERVAL 6e4
 #define SENSOR_NODE_ID "CT-UNO-2"
 
+unsigned long seq;
 unsigned long time;
 
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
@@ -37,10 +38,11 @@ void loop()
   uint8_t payload[128];
   DynamicJsonDocument json(sizeof(payload));
 
-  json["sensor_node"]       = SENSOR_NODE_ID;
-  json["soil_temperature"]  = analogRead(pin_temperature);
-  json["soil_moisture"]     = analogRead(pin_moisture);
-    
+  json[SENSOR_NODE_ID]["sensor_node"]       = SENSOR_NODE_ID;
+  json[SENSOR_NODE_ID]["soil_temperature"]  = analogRead(pin_temperature);
+  json[SENSOR_NODE_ID]["soil_moisture"]     = analogRead(pin_moisture);
+  json[SENSOR_NODE_ID]["seq"]               = seq++;
+  
   serializeJson(json, (unsigned char*)payload, sizeof(payload));
   
   rf95.send(payload, sizeof(payload));

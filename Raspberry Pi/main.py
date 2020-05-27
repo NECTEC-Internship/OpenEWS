@@ -30,13 +30,14 @@ def main():
             try:
                 data = ser.readline().decode('utf-8')
                 data = json.loads(data)
-                data['timestamp'] = str(datetime.datetime.now())
             except json.decoder.JSONDecodeError as  e:
                 print(e)
                 continue
+            sensor_node = list(data.kesy())[0]
+            data[sensor_node]['timestamp'] = str(datetime.datetime.now())
             payload = {"data": data}
             payload = json.dumps(payload)
-            client.publish(TOPICS_MSG["feeds"], payload=payload)
+            #client.publish(TOPICS_MSG["feeds"], payload=payload)
             client.publish(TOPICS_SHADOW['update'], payload=payload, qos=0, retain=False)
             print(payload)
         #while

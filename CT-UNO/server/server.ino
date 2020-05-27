@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <RH_RF95.h>
+#include <ArduinoJson.h>
 
 #define RFM95_CS 10
 #define RFM95_INT 2
@@ -36,7 +37,14 @@ void loop()
       digitalWrite(led, HIGH);
 //      RH_RF95::printBuffer("request: ", buf, len);
 //      Serial.print("payload: ");
-      Serial.println((char*)buf);
+      DynamicJsonDocument json(128);     
+      deserializeJson(json, (char*)buf);
+      
+      JsonObject root = json.as<JsonObject>();
+      json[root.begin()->key().c_str()]["RSSI"] = rf95.lastRssi();
+      serializeJson(json, Serial);
+      Serial.println();
+//      Serial.println((char*)buf);
 //      Serial.print("\tRSSI: ");
 //      Serial.println(rf95.lastRssi(), DEC);
       
